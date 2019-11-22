@@ -1,0 +1,148 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Application\Actions;
+
+use App\Models\Board;
+use App\Models\Game;
+use App\Models\GameNumbers;
+use App\Models\Numbers;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
+
+final class IndexAction extends Action
+{
+    public function __construct(LoggerInterface $logger)
+    {
+        parent::__construct($logger);
+    }
+
+    protected function action(): Response
+    {
+        session_start();
+        $query = $this->request->getQueryParams();
+        if ($query['reset'] ?? null) {
+            session_destroy();
+        }
+
+        $size = 5;
+        $game = $_SESSION['game'] ?? null;
+        if (is_null($game)) {
+            $gameNumbers = GameNumbers::create($size, 1);
+        } else {
+            $nums = $game['numbers'];
+            $gameNumbers = new GameNumbers(
+                new Numbers($nums['all']),
+                new Numbers($nums['left']),
+                new Numbers($nums['hit']),
+            );
+        }
+        $game = new Game($gameNumbers);
+        if (!$game->isFinish()) {
+            $gameNumbers->drawLots();
+        }
+
+        $game = [
+            'numbers' => $gameNumbers,
+        ];
+        $_SESSION['game'] = json_decode(json_encode($game), true);
+
+        $board = Board::create($size, $gameNumbers->hit);
+        $this->page($board);
+
+        return $this->response;
+    }
+
+    private function page(Board $board): void
+    {
+        ?>
+        <!doctype html>
+        <html lang="ja">
+        <head>
+            <? $this->css() ?>
+        </head>
+        <body>
+        <? $this->hitNumbersBox($board->hitNumbers) ?>
+        <?= $board ?>
+        </body>
+        </html>
+        <?
+    }
+
+    private function css(): void
+    {
+        ?>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .hit-numbers-box > ol {
+                display: flex;
+                list-style-type: none;
+            }
+
+            .hit-numbers-box > ol > li {
+                margin: 0.1rem;
+                width: 1.5rem;
+                background-color: #84B2C4;
+                color: #FFFFFF;
+                font-size: 0.5rem;
+                line-height: 1.5rem;
+                text-align: center;
+            }
+
+            .board {
+                height: 20rem;
+                width: 20rem;
+                background-color: #CF3D7E;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .rows {
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .element {
+                margin: 0.2rem;
+                width: 3rem;
+                background-color: #84B2C4;
+                color: #FFFFFF;
+                font-size: 1rem;
+                line-height: 3rem;
+                text-align: center;
+            }
+
+            .element.hit {
+                background-color: #427284;
+                color: #D0D0D0;
+            }
+        </style>
+        <?
+    }
+
+    private function hitNumbersBox(Numbers $hitNumbers): void
+    {
+        ?>
+        <div class="hit-numbers-box">
+            <ol>
+                <? foreach ($hitNumbers as $n): ?>
+                    <li>
+                        <div class="hit-number">
+                            <?= $n ?>
+                        </div>
+                    </li>
+                <? endforeach ?>
+            </ol>
+        </div>
+        <?
+    }
+}
