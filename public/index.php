@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Php\Models\Element;
 use Php\Models\Numbers;
+use Php\Models\Rows;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -20,39 +21,13 @@ function main()
     for ($i = 0; $i < 3; $i++) {
         $hitNums->push($leftNums->pop());
     }
+    $board = new \Php\Models\Board($nums, $hitNums);
 
-    $rows = initTable($size, $nums);
-    page($hitNums, $rows);
+    $rows = \Php\Models\Rows::create($size, $nums);
+    page($board->hitNumbers, $rows);
 }
 
-
-function initTable(int $size, Numbers $nums): array
-{
-    assert(isOdd($size));
-    $center = (int)floor($size / 2) + 1;
-    $centerI = $center - 1;
-
-    $rows = [];
-    for ($rowI = 0; $rowI < 5; $rowI++) {
-        $row = [];
-        for ($columnI = 0; $columnI < 5; $columnI++) {
-            $isCenter = ($centerI === $rowI && $centerI === $columnI);
-            $row[] = $isCenter ? 0 : $nums->pop();
-        }
-        $rows[] = $row;
-    }
-
-    $rows = array_map(function ($row) {
-        return array_map(function (int $num) {
-            $isHit = random([true, false]);
-            return new Element($num, $isHit);
-        }, $row);
-    }, $rows);
-
-    return $rows;
-}
-
-function page(Numbers $hitNumbers, array $rows): void
+function page(Numbers $hitNumbers, Rows $rows): void
 {
     ?>
     <!doctype html>
@@ -144,7 +119,7 @@ function hitNumbersBox(Numbers $hitNumbers): void
     <?
 }
 
-function board(array $rows): void
+function board(Rows $rows): void
 {
     ?>
     <div class="board">
