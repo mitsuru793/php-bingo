@@ -13,7 +13,8 @@ function main()
 {
     $size = 5;
     $rows = initTable($size);
-    page($rows);
+    $hitNumbers = [1, 2, 3,];
+    page($hitNumbers, $rows);
 }
 
 
@@ -46,7 +47,7 @@ function initTable(int $size): array
     return $rows;
 }
 
-function page(array $rows): void
+function page(array $hitNumbers, array $rows): void
 {
     ?>
     <!doctype html>
@@ -55,6 +56,7 @@ function page(array $rows): void
         <? css() ?>
     </head>
     <body>
+    <? hitNumbersBox($hitNumbers) ?>
     <? board($rows) ?>
     </body>
     </html>
@@ -68,6 +70,21 @@ function css(): void
         * {
             margin: 0;
             padding: 0;
+        }
+
+        .hit-numbers-box > ol {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .hit-numbers-box > ol > li {
+            margin: 0.1rem;
+            width: 1.5rem;
+            background-color: #84B2C4;
+            color: #FFFFFF;
+            font-size: 0.5rem;
+            line-height: 1.5rem;
+            text-align: center;
         }
 
         .board {
@@ -102,6 +119,23 @@ function css(): void
             background-color: #427284;
         }
     </style>
+    <?
+}
+
+function hitNumbersBox(array $hitNumbers): void
+{
+    ?>
+    <div class="hit-numbers-box">
+        <ol>
+            <? foreach ($hitNumbers as $n): ?>
+                <li>
+                    <div class="hit-number">
+                        <?= $n ?>
+                    </div>
+                </li>
+            <? endforeach ?>
+        </ol>
+    </div>
     <?
 }
 
