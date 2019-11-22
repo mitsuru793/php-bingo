@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Models;
 
-final class Numbers implements \IteratorAggregate
+final class Numbers implements \IteratorAggregate, \JsonSerializable
 {
     /** @var int[] */
     private $nums;
@@ -27,6 +27,11 @@ final class Numbers implements \IteratorAggregate
         return new \ArrayIterator($this->nums);
     }
 
+    public function jsonSerialize()
+    {
+        return array_values($this->nums);
+    }
+
     public function shuffle(): self
     {
         $newNums = $this->nums;
@@ -36,7 +41,7 @@ final class Numbers implements \IteratorAggregate
 
     public function push(int $num): self
     {
-        $this->nums[] = $num;
+        $this->nums[$num] = $num;
         return $this;
     }
 
@@ -48,5 +53,10 @@ final class Numbers implements \IteratorAggregate
     public function has(int $num): bool
     {
         return array_key_exists($num, $this->nums);
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->nums);
     }
 }

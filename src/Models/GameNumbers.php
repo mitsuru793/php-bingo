@@ -9,11 +9,15 @@ final class GameNumbers
     public $all;
 
     /** @var Numbers */
+    public $left;
+
+    /** @var Numbers */
     public $hit;
 
-    public function __construct(Numbers $all, Numbers $hit)
+    public function __construct(Numbers $all, Numbers $left, Numbers $hit)
     {
         $this->all = $all;
+        $this->left = $left;
         $this->hit = $hit;
     }
 
@@ -24,9 +28,18 @@ final class GameNumbers
 
         $elementSize = $boardSize * $boardSize;
         $end = (int)$elementSize * $numberStockRation - 1;
-        $nums = Numbers::create(1, $end)->shuffle();
+        $all = Numbers::create(1, $end)->shuffle();
+        $left = clone $all;
+        $left = $left->shuffle();
         $hits = new Numbers();
 
-        return new GameNumbers($nums, $hits);
+        return new GameNumbers($all, $left, $hits);
+    }
+
+    public function drawLots(): self
+    {
+        $hit = $this->left->pop();
+        $this->hit->push($hit);
+        return $this;
     }
 }

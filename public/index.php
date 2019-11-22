@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Php\Models\Board;
+use Php\Models\Game;
 use Php\Models\GameNumbers;
 use Php\Models\Numbers;
 use Php\Models\Rows;
@@ -14,12 +15,35 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 function main()
 {
-    $size = 5;
-    $gameNumbers = GameNumbers::create($size, 1);
+    session_start();
+    if ($_GET['reset'] ?? null) {
+        session_destroy();
+    }
 
-    $gameNumbers->hit = new Numbers(range(1, 5));
+    $size = 5;
+    $game = $_SESSION['game'] ?? null;
+    if (is_null($game)) {
+        $gameNumbers = GameNumbers::create($size, 1);
+    } else {
+        $nums = $game['numbers'];
+        $gameNumbers = new GameNumbers(
+            new Numbers($nums['all']),
+            new Numbers($nums['left']),
+            new Numbers($nums['hit']),
+        );
+    }
+    $game = new Game($gameNumbers);
+    if (!$game->isFinish()) {
+        $gameNumbers->drawLots();
+    }
 
     $board = initBoard($size, $gameNumbers->hit);
+
+    $game = [
+        'numbers' => $gameNumbers,
+    ];
+    $_SESSION['game'] = json_decode(json_encode($game), true);
+
     page($board->hitNumbers, $board->rows);
 }
 
