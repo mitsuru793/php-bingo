@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Php\Models\Element;
+use Php\Models\Board;
 use Php\Models\Numbers;
 use Php\Models\Rows;
 
@@ -14,6 +14,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 function main()
 {
     $size = 5;
+    $board = initBoard($size);
+    page($board->hitNumbers, $board->rows);
+}
+
+function initBoard(int $size): Board
+{
     $nums = Numbers::create(1, $size * $size - 1)->shuffle();
 
     $leftNums = clone $nums;
@@ -22,8 +28,9 @@ function main()
         $hitNums->push($leftNums->pop());
     }
     $rows = \Php\Models\Rows::create($size, $nums);
-    $board = new \Php\Models\Board($nums, $hitNums, $rows);
-    page($board->hitNumbers, $board->rows);
+    $board = new Board($nums, $hitNums, $rows);
+
+    return $board;
 }
 
 function page(Numbers $hitNumbers, Rows $rows): void
