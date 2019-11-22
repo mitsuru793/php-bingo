@@ -10,7 +10,10 @@ final class Numbers implements \IteratorAggregate
 
     public function __construct(array $nums = [])
     {
-        $this->nums = $nums;
+        $this->nums = [];
+        foreach ($nums as $n) {
+            $this->nums[$n] = $n;
+        }
     }
 
     public static function create(int $start, int $end): self
@@ -40,5 +43,10 @@ final class Numbers implements \IteratorAggregate
     public function pop(): int
     {
         return array_pop($this->nums);
+    }
+
+    public function has(int $num): bool
+    {
+        return array_key_exists($num, $this->nums);
     }
 }

@@ -13,7 +13,7 @@ final class Rows implements \IteratorAggregate
         $this->rows = $rows;
     }
 
-    public static function create(int $size, Numbers $nums): self
+    public static function create(int $size, Numbers $nums, Numbers $hits): self
     {
         assert(isOdd($size));
         $center = (int)floor($size / 2) + 1;
@@ -29,9 +29,9 @@ final class Rows implements \IteratorAggregate
             $rows[] = $row;
         }
 
-        $rows = array_map(function ($row) {
-            return array_map(function (int $num) {
-                $isHit = random([true, false]);
+        $rows = array_map(function ($row) use ($hits) {
+            return array_map(function (int $num) use ($hits) {
+                $isHit = $hits->has($num);
                 return new Element($num, $isHit);
             }, $row);
         }, $rows);

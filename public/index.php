@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Php\Models\Board;
+use Php\Models\GameNumbers;
 use Php\Models\Numbers;
 use Php\Models\Rows;
 
@@ -14,21 +15,26 @@ require_once __DIR__ . '/../vendor/autoload.php';
 function main()
 {
     $size = 5;
-    $board = initBoard($size);
+    $gameNumbers = GameNumbers::create($size, 1);
+
+    $gameNumbers->hit = new Numbers(range(1, 5));
+
+    $board = initBoard($size, $gameNumbers->hit);
     page($board->hitNumbers, $board->rows);
 }
 
-function initBoard(int $size): Board
+function initBoard(int $size, Numbers $gameHitNumbers): Board
 {
-    $nums = Numbers::create(1, $size * $size - 1)->shuffle();
+    $elementSize = $size * $size;
+    $boardNums = Numbers::create(1, $elementSize - 1)->shuffle();
 
-    $leftNums = clone $nums;
-    $hitNums = new Numbers();
-    for ($i = 0; $i < 3; $i++) {
-        $hitNums->push($leftNums->pop());
+    $boardHitNums = new Numbers();
+    foreach ($gameHitNumbers as $hit) {
+        $boardHitNums->push($hit);
     }
-    $rows = \Php\Models\Rows::create($size, $nums);
-    $board = new Board($nums, $hitNums, $rows);
+
+    $rows = Rows::create($size, $boardNums, $gameHitNumbers);
+    $board = new Board($boardNums, $boardHitNums, $rows);
 
     return $board;
 }
