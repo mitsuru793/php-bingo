@@ -14,9 +14,15 @@ function main()
 {
     $size = 5;
     $nums = Numbers::create(1, $size * $size - 1)->shuffle();
+
+    $leftNums = clone $nums;
+    $hitNums = new Numbers();
+    for ($i = 0; $i < 3; $i++) {
+        $hitNums->push($leftNums->pop());
+    }
+
     $rows = initTable($size, $nums);
-    $hitNumbers = [1, 2, 3,];
-    page($hitNumbers, $rows);
+    page($hitNums, $rows);
 }
 
 
@@ -46,7 +52,7 @@ function initTable(int $size, Numbers $nums): array
     return $rows;
 }
 
-function page(array $hitNumbers, array $rows): void
+function page(Numbers $hitNumbers, array $rows): void
 {
     ?>
     <!doctype html>
@@ -121,7 +127,7 @@ function css(): void
     <?
 }
 
-function hitNumbersBox(array $hitNumbers): void
+function hitNumbersBox(Numbers $hitNumbers): void
 {
     ?>
     <div class="hit-numbers-box">
