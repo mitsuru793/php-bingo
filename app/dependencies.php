@@ -24,5 +24,8 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+        \SlimSession\Helper::class => function (ContainerInterface $c) {
+            return new \SlimSession\Helper();
+        },
     ]);
 };

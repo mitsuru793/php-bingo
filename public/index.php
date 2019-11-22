@@ -30,6 +30,10 @@ $container = $containerBuilder->build();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
+// Register middleware
+$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware($app);
+
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);

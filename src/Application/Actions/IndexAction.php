@@ -9,20 +9,24 @@ use App\Models\GameNumbers;
 use App\Models\Numbers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
+use \SlimSession\Helper as SessionHelper;
 
 final class IndexAction extends Action
 {
-    public function __construct(LoggerInterface $logger)
+    /** @var SessionHelper */
+    private $session;
+
+    public function __construct(LoggerInterface $logger, SessionHelper $session)
     {
         parent::__construct($logger);
+        $this->session = $session;
     }
 
     protected function action(): Response
     {
-        session_start();
         $query = $this->request->getQueryParams();
         if ($query['reset'] ?? null) {
-            session_destroy();
+            $this->session->clear();
         }
 
         $size = 5;
@@ -45,7 +49,7 @@ final class IndexAction extends Action
         $game = [
             'numbers' => $gameNumbers,
         ];
-        $_SESSION['game'] = json_decode(json_encode($game), true);
+        $this->session->set('game', json_decode(json_encode($game), true));
 
         $board = Board::create($size, $gameNumbers->hit);
         $this->page($board);
