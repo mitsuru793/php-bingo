@@ -11,18 +11,18 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 function main()
 {
+    $nums = range(1, 5 * 5 - 1);
+    shuffle($nums);
+
     $size = 5;
-    $rows = initTable($size);
+    $rows = initTable($size, $nums);
     $hitNumbers = [1, 2, 3,];
     page($hitNumbers, $rows);
 }
 
 
-function initTable(int $size): array
+function initTable(int $size, array $nums): array
 {
-    $nums = range(1, 5 * 5 - 1);
-    shuffle($nums);
-
     assert(isOdd($size));
     $center = (int)floor($size / 2) + 1;
     $centerI = $center - 1;
