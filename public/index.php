@@ -37,7 +37,7 @@ function main()
         $gameNumbers->drawLots();
     }
 
-    $board = initBoard($size, $gameNumbers->hit);
+    $board = Board::create($size, $gameNumbers->hit);
 
     $game = [
         'numbers' => $gameNumbers,
@@ -45,22 +45,6 @@ function main()
     $_SESSION['game'] = json_decode(json_encode($game), true);
 
     page($board->hitNumbers, $board->rows);
-}
-
-function initBoard(int $size, Numbers $gameHitNumbers): Board
-{
-    $elementSize = $size * $size;
-    $boardNums = Numbers::create(1, $elementSize - 1)->shuffle();
-
-    $boardHitNums = new Numbers();
-    foreach ($gameHitNumbers as $hit) {
-        $boardHitNums->push($hit);
-    }
-
-    $rows = Rows::create($size, $boardNums, $gameHitNumbers);
-    $board = new Board($boardNums, $boardHitNums, $rows);
-
-    return $board;
 }
 
 function page(Numbers $hitNumbers, Rows $rows): void

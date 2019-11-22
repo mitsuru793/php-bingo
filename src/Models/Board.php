@@ -20,4 +20,20 @@ final class Board
         $this->hitNumbers = $hitNumbers;
         $this->rows = $rows;
     }
+
+    public static function create(int $size, Numbers $gameHitNumbers): self
+    {
+        $elementSize = $size * $size;
+        $boardNums = Numbers::create(1, $elementSize - 1)->shuffle();
+
+        $boardHitNums = new Numbers();
+        foreach ($gameHitNumbers as $hit) {
+            $boardHitNums->push($hit);
+        }
+
+        $rows = Rows::create($size, $boardNums, $gameHitNumbers);
+        $board = new self($boardNums, $boardHitNums, $rows);
+
+        return $board;
+    }
 }
