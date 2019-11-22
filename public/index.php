@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Php\Models\Element;
+use Php\Models\Numbers;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -11,17 +12,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 function main()
 {
-    $nums = range(1, 5 * 5 - 1);
-    shuffle($nums);
-
     $size = 5;
+    $nums = Numbers::create(1, $size * $size - 1)->shuffle();
     $rows = initTable($size, $nums);
     $hitNumbers = [1, 2, 3,];
     page($hitNumbers, $rows);
 }
 
 
-function initTable(int $size, array $nums): array
+function initTable(int $size, Numbers $nums): array
 {
     assert(isOdd($size));
     $center = (int)floor($size / 2) + 1;
@@ -32,7 +31,7 @@ function initTable(int $size, array $nums): array
         $row = [];
         for ($columnI = 0; $columnI < 5; $columnI++) {
             $isCenter = ($centerI === $rowI && $centerI === $columnI);
-            $row[] = $isCenter ? 0 : array_pop($nums);
+            $row[] = $isCenter ? 0 : $nums->pop();
         }
         $rows[] = $row;
     }
