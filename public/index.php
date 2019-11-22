@@ -21,10 +21,9 @@ function main()
     for ($i = 0; $i < 3; $i++) {
         $hitNums->push($leftNums->pop());
     }
-    $board = new \Php\Models\Board($nums, $hitNums);
-
     $rows = \Php\Models\Rows::create($size, $nums);
-    page($board->hitNumbers, $rows);
+    $board = new \Php\Models\Board($nums, $hitNums, $rows);
+    page($board->hitNumbers, $board->rows);
 }
 
 function page(Numbers $hitNumbers, Rows $rows): void
@@ -97,6 +96,7 @@ function css(): void
 
         .element.hit {
             background-color: #427284;
+            color: #D0D0D0;
         }
     </style>
     <?
