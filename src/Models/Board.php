@@ -36,4 +36,19 @@ final class Board
 
         return $board;
     }
+
+    public function __toString(): string
+    {
+        ob_start(); ?>
+        <div class="board">
+            <div class="rows">
+                <? foreach ($this->rows as $row): ?>
+                    <div class="row">
+                        <? renderItems($row) ?>
+                    </div>
+                <? endforeach ?>
+            </div>
+        </div>
+        <? return ob_get_clean();
+    }
 }

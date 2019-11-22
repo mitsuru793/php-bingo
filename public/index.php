@@ -5,7 +5,6 @@ use Php\Models\Board;
 use Php\Models\Game;
 use Php\Models\GameNumbers;
 use Php\Models\Numbers;
-use Php\Models\Rows;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -44,10 +43,10 @@ function main()
     ];
     $_SESSION['game'] = json_decode(json_encode($game), true);
 
-    page($board->hitNumbers, $board->rows);
+    page($board);
 }
 
-function page(Numbers $hitNumbers, Rows $rows): void
+function page(Board $board): void
 {
     ?>
     <!doctype html>
@@ -56,8 +55,8 @@ function page(Numbers $hitNumbers, Rows $rows): void
         <? css() ?>
     </head>
     <body>
-    <? hitNumbersBox($hitNumbers) ?>
-    <? board($rows) ?>
+    <? hitNumbersBox($board->hitNumbers) ?>
+    <?= $board ?>
     </body>
     </html>
     <?
@@ -139,21 +138,5 @@ function hitNumbersBox(Numbers $hitNumbers): void
     </div>
     <?
 }
-
-function board(Rows $rows): void
-{
-    ?>
-    <div class="board">
-        <div class="rows">
-            <? foreach ($rows as $row): ?>
-                <div class="row">
-                    <? renderItems($row) ?>
-                </div>
-            <? endforeach ?>
-        </div>
-    </div>
-    <?
-}
-
 
 main();
