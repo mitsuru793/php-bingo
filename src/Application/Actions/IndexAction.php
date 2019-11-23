@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
+use App\Domain\Game\Game;
+use App\Domain\Game\GameNumbers;
 use App\Models\Board;
-use App\Models\Game;
-use App\Models\GameNumbers;
 use App\Models\Numbers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
-use \SlimSession\Helper as SessionHelper;
+use SlimSession\Helper as SessionHelper;
 
 final class IndexAction extends Action
 {
@@ -41,7 +41,7 @@ final class IndexAction extends Action
                 new Numbers($nums['hit']),
             );
         }
-        $game = new Game($gameNumbers);
+        $game = new Game(1, $gameNumbers);
         if (!$game->isFinish()) {
             $gameNumbers->drawLots();
         }

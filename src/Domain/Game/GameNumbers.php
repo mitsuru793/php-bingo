@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Domain\Game;
 
-final class GameNumbers
+use App\Models\Numbers;
+
+final class GameNumbers implements \JsonSerializable
 {
     /** @var Numbers */
     public $all;
@@ -41,5 +43,14 @@ final class GameNumbers
         $hit = $this->left->pop();
         $this->hit->push($hit);
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'all' => $this->all,
+            'left' => $this->left,
+            'hit' => $this->hit,
+        ];
     }
 }
