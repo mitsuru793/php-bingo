@@ -2,6 +2,24 @@
 declare(strict_types=1);
 
 /**
+ * @param mixed $value
+ * @return mixed
+ */
+function cast($value, callable $callback)
+{
+    return $callback($value);
+}
+
+function rangeMap(int $min, int $max, callable $fn)
+{
+    $result = [];
+    for ($i = $min; $i <= $max; $i++) {
+        $result[] = $fn($i);
+    }
+    return $result;
+}
+
+/**
  * @return mixed
  */
 function isT(bool $condition, $val)

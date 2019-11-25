@@ -47,5 +47,13 @@ return function (ContainerBuilder $containerBuilder) {
             $translator->addResource('yaml', ROOT . '/locales/ja.yml', 'ja_JP');
             return $translator;
         },
+        \ParagonIE\EasyDB\EasyDB::class => function (ContainerInterface $container) {
+            $db = \ParagonIE\EasyDB\Factory::fromArray([
+                'mysql:host=localhost;dbname=development_db',
+                'root',
+                ''
+            ]);
+            return $db;
+        },
     ]);
 };
