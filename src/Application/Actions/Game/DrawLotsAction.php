@@ -12,10 +12,13 @@ final class DrawLotsAction extends GameAction
         $gameId = (int)$this->resolveArg('id');
         $game = $this->gameRepository->findGameOfId($gameId);
 
-        $hitNumber = $game->drawLots();
-        $this->gameRepository->update($game);
-
-        $this->logger->info("Game of id `${gameId}` hits number `{$hitNumber}`.");
+        if (!$game->isFinish()) {
+            $hitNumber = $game->drawLots();
+            $this->gameRepository->update($game);
+            $this->logger->info("Game of id `${gameId}` hits number `{$hitNumber}`.");
+        } else {
+            $this->logger->info("Game of id `${gameId}` couldn't hit number, but game is finished.");
+        }
 
         $this->view->render($this->response, 'game.twig', [
             'game' => $game,
