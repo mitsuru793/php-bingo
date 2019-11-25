@@ -8,13 +8,13 @@ use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 /*
  * color palette: https://www.palettable.io/CF3D7E-7E3094-FFFFFF-427284-84B2C4
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+const ROOT = __DIR__ . '/..';
+
+require ROOT . '/vendor/autoload.php';
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
@@ -73,4 +73,3 @@ $errorMiddleware->setDefaultErrorHandler($errorHandler);
 $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();
 $responseEmitter->emit($response);
-

@@ -6,7 +6,7 @@ namespace App\Application\Actions\Game;
 use App\Application\Actions\Action;
 use App\Domain\Game\GameRepository;
 use Psr\Log\LoggerInterface;
-
+use Slim\Views\Twig;
 
 abstract class GameAction extends Action
 {
@@ -15,9 +15,13 @@ abstract class GameAction extends Action
      */
     protected $gameRepository;
 
-    public function __construct(LoggerInterface $logger, GameRepository $gameRepository)
+    /** @var Twig */
+    protected $view;
+
+    public function __construct(LoggerInterface $logger, Twig $view, GameRepository $gameRepository)
     {
         parent::__construct($logger);
         $this->gameRepository = $gameRepository;
+        $this->view = $view;
     }
 }
