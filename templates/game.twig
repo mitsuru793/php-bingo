@@ -2,33 +2,29 @@
 
 {# game \App\Domain\Game\Game #}
 
+{% macro numbers_box(hitNumbers) %}
+    <div class="numbers-box">
+        <ol>
+            {% for num in hitNumbers %}
+                <li class="hit-number">
+                    {{ num }}
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endmacro %}
+
 {% block content %}
     Index Page
     {{ 'game.index' | trans }}
 
     <div class="head">
-    {{ 'game.numbers.hit' | trans }}
-</div>
-    <div class="numbers">
-        <ol class="numbers-items">
-            {% for num in game.numbers.hit %}
-                <li class="number-item">
-                    {{ num }}
-                </li>
-            {% endfor %}
-        </ol>
+        {{ 'game.numbers.hit' | trans }}({{ game.numbers.hit | length }})
     </div>
+    {{ _self.numbers_box(game.numbers.hit) }}
 
     <div class="head">
-        {{ 'game.numbers.left' | trans }}
+        {{ 'game.numbers.left' | trans }}({{ game.numbers.left | length }})
     </div>
-    <div class="numbers">
-        <ol class="numbers-items">
-            {% for num in game.numbers.left %}
-                <li class="number-item">
-                    {{ num }}
-                </li>
-            {% endfor %}
-        </ol>
-    </div>
+    {{ _self.numbers_box(game.numbers.left) }}
 {% endblock %}

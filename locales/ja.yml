@@ -1,3 +1,6 @@
 game:
   index:
     ハローワールド
+  numbers:
+    left: '残りの数字'
+    hit: '引いた数字'
