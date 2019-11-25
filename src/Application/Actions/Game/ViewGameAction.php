@@ -14,7 +14,7 @@ final class ViewGameAction extends GameAction
 
         $this->logger->info("Game of id `${gameId}` was viewed.");
 
-        $this->view->render($this->response, 'game.twig', [
+        $this->view->render($this->response, 'game/view.twig', [
             'game' => $game,
         ]);
         return $this->response;
