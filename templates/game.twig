@@ -29,6 +29,6 @@
     {{ _self.numbers_box(game.numbers.left) }}
 
     <form action="/games/{{ game.id }}:drawLots" method="post">
-        <button>{{ 'game.drawLots' | trans }}</button>
+        <button {{ attribute(game, 'isFinish') ? 'disabled' : '' }}>{{ 'game.drawLots' | trans }}</button>
     </form>
 {% endblock %}
