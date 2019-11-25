@@ -18,4 +18,6 @@ interface GameRepository
     /**
      */
     public function create(Game $game): Game;
+
+    public function update(Game $game);
 }

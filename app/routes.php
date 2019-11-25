@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\Game\DrawLotsAction;
 use App\Application\Actions\Game\ViewGameAction;
 use App\Application\Actions\IndexAction;
 use Slim\App;
@@ -11,5 +12,6 @@ return function (App $app) {
 
     $app->group('/games', function (Group $group) {
         $group->get('/{id}', ViewGameAction::class);
+        $group->post('/{id}:drawLots', DrawLotsAction::class);
     });
 };

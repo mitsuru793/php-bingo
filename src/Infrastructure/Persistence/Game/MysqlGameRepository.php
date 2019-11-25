@@ -44,6 +44,16 @@ final class MysqlGameRepository implements GameRepository
         return $game;
     }
 
+    public function update(Game $game): void
+    {
+        $this->db->update('games', [
+            'numbers' => json_encode($game->numbers),
+        ], [
+            'id' => $game->id,
+        ]);
+    }
+
+
     /**
      * @return Game[]
      */

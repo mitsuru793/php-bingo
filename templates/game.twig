@@ -27,4 +27,8 @@
         {{ 'game.numbers.left' | trans }}({{ game.numbers.left | length }})
     </div>
     {{ _self.numbers_box(game.numbers.left) }}
+
+    <form action="/games/{{ game.id }}:drawLots" method="post">
+        <button>{{ 'game.drawLots' | trans }}</button>
+    </form>
 {% endblock %}
