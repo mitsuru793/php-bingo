@@ -5,3 +5,5 @@ game:
     left: '残りの数字'
     hit: '引いた数字'
   drawLots: 数字を引く
+common:
+  detail: 詳細
