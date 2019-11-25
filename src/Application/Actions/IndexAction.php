@@ -9,6 +9,7 @@ use App\Models\Board;
 use App\Models\Numbers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
+use Slim\Views\Twig;
 use SlimSession\Helper as SessionHelper;
 
 final class IndexAction extends Action
@@ -16,9 +17,9 @@ final class IndexAction extends Action
     /** @var SessionHelper */
     private $session;
 
-    public function __construct(LoggerInterface $logger, SessionHelper $session)
+    public function __construct(LoggerInterface $logger, Twig $view, SessionHelper $session)
     {
-        parent::__construct($logger);
+        parent::__construct($logger, $view);
         $this->session = $session;
     }
 

@@ -9,11 +9,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Views\Twig;
 
 abstract class Action
 {
     /** @var LoggerInterface */
     protected $logger;
+
+    /** @var Twig */
+    protected $view;
 
     /** @var Request */
     protected $request;
@@ -24,9 +28,10 @@ abstract class Action
     /** @var array */
     protected $args;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, Twig $twig)
     {
         $this->logger = $logger;
+        $this->view = $twig;
     }
 
     /**

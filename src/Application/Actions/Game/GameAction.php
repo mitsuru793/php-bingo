@@ -20,7 +20,7 @@ abstract class GameAction extends Action
 
     public function __construct(LoggerInterface $logger, Twig $view, GameRepository $gameRepository)
     {
-        parent::__construct($logger);
+        parent::__construct($logger, $view);
         $this->gameRepository = $gameRepository;
         $this->view = $view;
     }
