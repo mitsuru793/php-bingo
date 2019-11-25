@@ -24,6 +24,11 @@ class InMemoryGameRepository implements GameRepository
                 2 => new Game(2, clone $nums),
                 3 => new Game(3, clone $nums),
             ];
+        foreach ($this->games as $game) {
+            for ($i = 0; $i < rand(0, 10); $i++) {
+                $game->drawLots();
+            }
+        }
         $this->nextId = count($this->games) + 1;
     }
 
