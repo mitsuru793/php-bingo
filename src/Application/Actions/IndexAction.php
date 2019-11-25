@@ -53,101 +53,10 @@ final class IndexAction extends Action
         $this->session->set('game', json_decode(json_encode($game), true));
 
         $board = Board::create($size, $gameNumbers->hit);
-        $this->page($board);
 
+        $this->view->render($this->response, 'index.twig', [
+            'board' => $board,
+        ]);
         return $this->response;
-    }
-
-    private function page(Board $board): void
-    {
-        ?>
-        <!doctype html>
-        <html lang="ja">
-        <head>
-            <? $this->css() ?>
-        </head>
-        <body>
-        <? $this->hitNumbersBox($board->hitNumbers) ?>
-        <?= $board ?>
-        </body>
-        </html>
-        <?
-    }
-
-    private function css(): void
-    {
-        ?>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-            }
-
-            .hit-numbers-box > ol {
-                display: flex;
-                list-style-type: none;
-            }
-
-            .hit-numbers-box > ol > li {
-                margin: 0.1rem;
-                width: 1.5rem;
-                background-color: #84B2C4;
-                color: #FFFFFF;
-                font-size: 0.5rem;
-                line-height: 1.5rem;
-                text-align: center;
-            }
-
-            .board {
-                height: 20rem;
-                width: 20rem;
-                background-color: #CF3D7E;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .rows {
-            }
-
-            .row {
-                display: flex;
-                flex-direction: row;
-            }
-
-            .element {
-                margin: 0.2rem;
-                width: 3rem;
-                background-color: #84B2C4;
-                color: #FFFFFF;
-                font-size: 1rem;
-                line-height: 3rem;
-                text-align: center;
-            }
-
-            .element.hit {
-                background-color: #427284;
-                color: #D0D0D0;
-            }
-        </style>
-        <?
-    }
-
-    private function hitNumbersBox(Numbers $hitNumbers): void
-    {
-        ?>
-        <div class="hit-numbers-box">
-            <ol>
-                <? foreach ($hitNumbers as $n): ?>
-                    <li>
-                        <div class="hit-number">
-                            <?= $n ?>
-                        </div>
-                    </li>
-                <? endforeach ?>
-            </ol>
-        </div>
-        <?
     }
 }

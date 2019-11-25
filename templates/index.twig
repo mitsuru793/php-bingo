@@ -1,4 +1,18 @@
-{# @var game \App\Domain\Game\Game #}
-Index Page
-[{{ 'game.index' | trans }}]
+{% extends 'layouts/common.twig' %}
 
+{# board \App\Models\Board #}
+
+{% block content %}
+    <div class="hit-numbers-box">
+        <ol>
+            {% for num in board.hitNumbers %}
+                <li>
+                    <div class="hit-number">
+                        {{ num }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+    {{ board | raw }}
+{% endblock %}
