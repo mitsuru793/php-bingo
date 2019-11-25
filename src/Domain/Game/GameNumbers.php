@@ -38,11 +38,11 @@ final class GameNumbers implements \JsonSerializable
         return new GameNumbers($all, $left, $hits);
     }
 
-    public function drawLots(): self
+    public function drawLots(): int
     {
         $hit = $this->left->pop();
         $this->hit->push($hit);
-        return $this;
+        return $hit;
     }
 
     public function jsonSerialize()

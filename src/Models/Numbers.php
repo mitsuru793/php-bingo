@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-final class Numbers implements \IteratorAggregate, \JsonSerializable
+final class Numbers implements \IteratorAggregate, \JsonSerializable, \Countable
 {
     /** @var int[] */
     private $nums;
@@ -20,6 +20,11 @@ final class Numbers implements \IteratorAggregate, \JsonSerializable
     {
         $nums = range($start, $end);
         return new self($nums);
+    }
+
+    public function count()
+    {
+        return count($this->nums);
     }
 
     public function getIterator()

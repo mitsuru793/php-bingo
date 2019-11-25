@@ -17,10 +17,9 @@ final class Game implements \JsonSerializable
         $this->numbers = $numbers;
     }
 
-    public function drawLots(): self
+    public function drawLots(): int
     {
-        $this->numbers->drawLots();
-        return $this;
+        return $this->numbers->drawLots();
     }
 
     public function isFinish(): bool
