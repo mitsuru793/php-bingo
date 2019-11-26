@@ -73,6 +73,6 @@ final class MysqlGameRepository implements GameRepository
             $hit = new Numbers($nums->hit);
             return new GameNumbers($all, $left, $hit);
         });
-        return new Game($row['id'], $numbers);
+        return new Game($row['id'], $row['author_id'], $numbers);
     }
 }

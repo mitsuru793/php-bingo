@@ -1,6 +1,7 @@
 {% extends 'layouts/common.twig' %}
 
 {# game \App\Domain\Game\Game #}
+{# author \App\Domain\User\User #}
 
 {% macro numbers_box(hitNumbers) %}
     <div class="numbers-box">
@@ -17,6 +18,11 @@
 {% block content %}
     Index Page
     {{ 'game.index' | trans }}
+
+    <div class="author">
+        {{ 'game.author' | trans }}
+        {{ author.name }}
+    </div>
 
     <div class="head">
         {{ 'game.numbers.hit' | trans }}({{ game.numbers.hit | length }})

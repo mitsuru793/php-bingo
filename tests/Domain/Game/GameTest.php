@@ -9,7 +9,7 @@ final class GameTest extends TestCase
 {
     public function testDrawLots()
     {
-        $game = new Game(1, GameNumbers::create(3, 1));
+        $game = new Game(1, null, GameNumbers::create(3, 1));
         $nums = $game->numbers;
         $this->assertCount(count($nums->left), $nums->all);
 

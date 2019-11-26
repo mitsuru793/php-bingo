@@ -42,7 +42,7 @@ final class IndexAction extends Action
                 new Numbers($nums['hit']),
             );
         }
-        $game = new Game(1, $gameNumbers);
+        $game = new Game(1, null, $gameNumbers);
         if (!$game->isFinish()) {
             $gameNumbers->drawLots();
         }

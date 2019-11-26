@@ -1,6 +1,7 @@
 game:
   index:
     ハローワールド
+  author: ゲーム作成者
   numbers:
     left: '残りの数字'
     hit: '引いた数字'

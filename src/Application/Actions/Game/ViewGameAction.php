@@ -11,11 +11,13 @@ final class ViewGameAction extends GameAction
     {
         $gameId = (int)$this->resolveArg('id');
         $game = $this->gameRepository->findGameOfId($gameId);
+        $author = $this->userRepository->findUserOfId($game->authorId);
 
         $this->logger->info("Game of id `${gameId}` was viewed.");
 
         $this->view->render($this->response, 'game/view.twig', [
             'game' => $game,
+            'author' => $author,
         ]);
         return $this->response;
     }

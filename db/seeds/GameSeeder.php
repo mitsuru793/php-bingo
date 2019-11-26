@@ -1,10 +1,16 @@
 <?php
 
-
 use Phinx\Seed\AbstractSeed;
 
 class GameSeeder extends AbstractSeed
 {
+    public function getDependencies()
+    {
+        return [
+            UserSeeder::class,
+        ];
+    }
+
     /**
      * Run Method.
      *
@@ -15,6 +21,7 @@ class GameSeeder extends AbstractSeed
      */
     public function run()
     {
+        $faker = \Faker\Factory::create();
         $size = 5;
 
         $data = [];
@@ -26,6 +33,7 @@ class GameSeeder extends AbstractSeed
             });
 
             $data[] = [
+                'author_id' => $faker->numberBetween(1, 100),
                 'numbers' => json_encode($gameNumbers),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

@@ -8,13 +8,17 @@ final class Game implements \JsonSerializable
     /** @var int|null */
     public $id;
 
+    /** @var int|null */
+    public $authorId;
+
     /** @var GameNumbers */
     public $numbers;
 
-    public function __construct(?int $id, GameNumbers $numbers)
+    public function __construct(?int $id, ?int $authorId, GameNumbers $numbers)
     {
         $this->id = $id;
         $this->numbers = $numbers;
+        $this->authorId = $authorId;
     }
 
     public function drawLots(): int
