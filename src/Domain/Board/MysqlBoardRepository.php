@@ -19,16 +19,30 @@ final class MysqlBoardRepository implements BoardRepository
 
     public function findBoardOfId(int $id): Board
     {
-        $row = $this->db->row(<<<SQL
+        $rows = $this->db->row(<<<SQL
             SELECT boards.*, games.numbers as game_numbers
             FROM boards
             INNER JOIN games ON boards.game_id = games.id 
             WHERE boards.id = ?
         SQL, $id);
-        if (!$row) {
+        if (!$rows) {
             throw new BoardNotFoundException();
         }
-        return $this->toBoard($row);
+        return $this->toBoard($rows);
+    }
+
+    public function findBoardsOfGameId(int $id): array
+    {
+        $rows = $this->db->run(<<<SQL
+            SELECT boards.*, games.numbers as game_numbers
+            FROM boards
+            INNER JOIN games ON boards.game_id = games.id 
+            WHERE boards.game_id = ?
+        SQL, $id);
+        if (!$rows) {
+            throw new BoardNotFoundException();
+        }
+        return $this->toBoards($rows);
     }
 
     private function toBoard(array $row): Board
@@ -41,5 +55,13 @@ final class MysqlBoardRepository implements BoardRepository
             return new Numbers($nums->hit);
         });
         return Board::load($id, $boardNums, $gameHits);
+    }
+
+    private function toBoards(array $rows): array
+    {
+        $boards = array_map(function ($row) {
+            return $this->toBoard($row);
+        }, $rows);
+        return $boards;
     }
 }

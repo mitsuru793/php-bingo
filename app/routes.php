@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+
+use App\Application\Actions\Board\ListBoardsOfGameAction;
 use App\Application\Actions\Board\ViewBoardAction;
 use App\Application\Actions\Game\DrawLotsAction;
 use App\Application\Actions\Game\ListGamesAction;
@@ -16,6 +18,7 @@ return function (App $app) {
         $group->get('', ListGamesAction::class);
         $group->get('/{id}', ViewGameAction::class);
         $group->post('/{id}:drawLots', DrawLotsAction::class);
+        $group->get('/{id}/boards', ListBoardsOfGameAction::class);
     });
 
     $app->group('/boards', function (Group $group) {

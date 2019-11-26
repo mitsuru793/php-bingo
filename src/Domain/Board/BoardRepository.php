@@ -11,4 +11,9 @@ interface BoardRepository
      * @throws BoardNotFoundException
      */
     public function findBoardOfId(int $id): Board;
+
+    /**
+     * @return Board[]
+     */
+    public function findBoardsOfGameId(int $id): array;
 }

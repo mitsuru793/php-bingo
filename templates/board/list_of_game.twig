@@ -1,0 +1,20 @@
+{% extends 'layouts/common.twig' %}
+
+{# boards \App\Domain\Board\Board[] #}
+
+{% block content %}
+    <table>
+        <thead>
+        <th>id</th>
+        <th>{{ 'common.detail' | trans }}</th>
+        </thead>
+        <tbody>
+        {% for board in boards %}
+            <tr>
+                <td>{{ board.id }}</td>
+                <td><a href="/boards/{{ board.id }}">Link</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
