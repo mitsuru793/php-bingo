@@ -7,12 +7,14 @@
         <thead>
         <th>id</th>
         <th>{{ 'common.detail' | trans }}</th>
+        <th></th>
         </thead>
         <tbody>
         {% for board in boards %}
             <tr>
                 <td>{{ board.id }}</td>
                 <td><a href="/boards/{{ board.id }}">Link</a></td>
+                <td>{{ board | raw }}</td>
             </tr>
         {% endfor %}
         </tbody>
