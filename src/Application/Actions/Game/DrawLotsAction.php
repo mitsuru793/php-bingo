@@ -20,7 +20,7 @@ final class DrawLotsAction extends GameAction
             $this->logger->info("Game of id `${gameId}` couldn't hit number, but game is finished.");
         }
 
-        $this->view->render($this->response, 'game.twig', [
+        $this->view->render($this->response, 'game/view.twig', [
             'game' => $game,
         ]);
         return $this->response;
