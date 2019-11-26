@@ -5,6 +5,9 @@ namespace App\Models;
 
 final class Board
 {
+    /** @var int */
+    public $id;
+
     /** @var Numbers */
     public $allNumbers;
 
@@ -14,8 +17,9 @@ final class Board
     /** @var Rows */
     public $rows;
 
-    public function __construct(Numbers $allNumbers, Numbers $hitNumbers, Rows $rows)
+    public function __construct(?int $id, Numbers $allNumbers, Numbers $hitNumbers, Rows $rows)
     {
+        $this->id = $id;
         $this->allNumbers = $allNumbers;
         $this->hitNumbers = $hitNumbers;
         $this->rows = $rows;
@@ -25,16 +29,19 @@ final class Board
     {
         $elementSize = $size * $size;
         $boardNums = Numbers::create(1, $elementSize - 1)->shuffle();
+        return self::load(null, $boardNums, $gameHitNumbers);
+    }
 
+    public static function load(?int $id, Numbers $boardNumbers, Numbers $gameHitNumbers)
+    {
         $boardHitNums = new Numbers();
         foreach ($gameHitNumbers as $hit) {
             $boardHitNums->push($hit);
         }
 
-        $rows = Rows::create($size, $boardNums, $gameHitNumbers);
-        $board = new self($boardNums, $boardHitNums, $rows);
-
-        return $board;
+        $size = (int)sqrt(count($boardNumbers)) + 1;
+        $rows = Rows::create($size, $boardNumbers, $gameHitNumbers);
+        return new self($id, $boardNumbers, $boardHitNums, $rows);
     }
 
     public function __toString(): string

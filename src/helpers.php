@@ -10,6 +10,14 @@ function cast($value, callable $callback)
     return $callback($value);
 }
 
+/**
+ * @return mixed
+ */
+function jsonCast(string $json, callable $callback)
+{
+    return cast(json_decode($json), $callback);
+}
+
 function rangeMap(int $min, int $max, callable $fn)
 {
     $result = [];

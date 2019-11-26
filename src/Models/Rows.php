@@ -15,7 +15,7 @@ final class Rows implements \IteratorAggregate
 
     public static function create(int $size, Numbers $nums, Numbers $hits): self
     {
-        assert(isOdd($size));
+        assert(isOdd($size), "Size must be odd, but `$size`.");
         $center = (int)floor($size / 2) + 1;
         $centerI = $center - 1;
 
