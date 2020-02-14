@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 
+use App\Application\Actions\Auth\LoginAuthAction;
 use App\Application\Actions\Board\ListBoardsOfGameAction;
 use App\Application\Actions\Board\ViewBoardAction;
 use App\Application\Actions\Game\DrawLotsAction;
@@ -13,6 +14,8 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $app->get('/', IndexAction::class);
+
+    $app->get('/login', LoginAuthAction::class);
 
     $app->group('/games', function (Group $group) {
         $group->get('', ListGamesAction::class);

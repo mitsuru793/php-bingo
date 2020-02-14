@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
+use App\Application\Middlewares\LoginAuth;
 use App\Domain\DomainException\DomainRecordNotFoundException;
+use App\Domain\User\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -21,6 +23,9 @@ abstract class Action
 
     /** @var Request */
     protected $request;
+
+    /** @var User */
+    protected $loginUser;
 
     /** @var Response */
     protected $response;
@@ -43,6 +48,7 @@ abstract class Action
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
+        $this->loginUser = $request->getAttribute(LoginAuth::ATTRIBUTE_KEY);
         try {
             return $this->action();
         } catch (DomainRecordNotFoundException $e) {
